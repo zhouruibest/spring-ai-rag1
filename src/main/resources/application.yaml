@@ -1,0 +1,19 @@
+spring:
+  debug: true
+  application:
+    name: handbook
+  ai:
+    dashscope:
+      api-key: ${MY_APP_API_KEY}
+
+milvus:
+  host: mydevcvm
+  port: 19530
+  token: "root:Milvus"
+  database: "ragtestdatebase"
+  collection: "ragtestcollection"
+
+
+
+
+
