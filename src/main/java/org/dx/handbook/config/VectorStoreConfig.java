@@ -16,9 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
-import java.util.List;
-
 @Configuration
 public class VectorStoreConfig {
 
@@ -41,11 +38,7 @@ public class VectorStoreConfig {
     public MilvusServiceClient milvusServiceClient() {
         try {
             // 创建 MilvusServiceClient 实例
-            MilvusServiceClient client = new MilvusServiceClient(
-                    ConnectParam.newBuilder()
-                            .withHost(host)
-                            .withPort(port)
-                            .build());
+            MilvusServiceClient client = new MilvusServiceClient(ConnectParam.newBuilder().withHost(host).withPort(port).build());
 
             // 测试连接状态 - 尝试列出所有数据库
             R<ListDatabasesResponse> response = client.listDatabases();
@@ -75,14 +68,6 @@ public class VectorStoreConfig {
      */
     @Bean(name = "vectorStore2")
     public VectorStore vectorStore(MilvusServiceClient milvusClient, EmbeddingModel embeddingModel) {
-        return MilvusVectorStore.builder(milvusClient, embeddingModel)
-                .collectionName(collection)
-                .databaseName(database)
-                .embeddingDimension(1536)
-                .indexType(IndexType.IVF_FLAT)
-                .metricType(MetricType.COSINE)
-                .batchingStrategy(new TokenCountBatchingStrategy())
-                .initializeSchema(false)
-                .build();
+        return MilvusVectorStore.builder(milvusClient, embeddingModel).collectionName(collection).databaseName(database).embeddingDimension(1536).indexType(IndexType.IVF_FLAT).metricType(MetricType.COSINE).batchingStrategy(new TokenCountBatchingStrategy()).initializeSchema(false).build();
     }
 }
