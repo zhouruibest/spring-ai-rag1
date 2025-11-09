@@ -7,7 +7,7 @@ spring:
       api-key: ${MY_APP_API_KEY}
 
 milvus:
-  host: mydevcvm
+  host: mydevcvm # 域名，配置了hosts
   port: 19530
   token: "root:Milvus"
   database: "ragtestdatebase"
