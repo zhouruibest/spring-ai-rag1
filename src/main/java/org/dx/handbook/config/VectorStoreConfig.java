@@ -59,15 +59,16 @@ public class VectorStoreConfig {
 
     /**
      * 定义一个名为 vectorStore2 的Bean，用于创建并返回一个 VectorStore 实例。
-     * 使用 MilvusVectorStore.builder 方法构建向量存储对象，并设置以下参数：
-     * embeddingDimension：嵌入维度为 1536。
-     * indexType：索引类型为 IVF_FLAT，这是一种常见的近似最近邻搜索索引类型。
-     * metricType：度量类型为 COSINE，用于计算向量之间的余弦相似度。
-     * batchingStrategy：使用 TokenCountBatchingStrategy 策略进行批量处理。
-     * initializeSchema：设置为 true，表示在构建时初始化数据库模式。
      */
     @Bean(name = "vectorStore2")
     public VectorStore vectorStore(MilvusServiceClient milvusClient, EmbeddingModel embeddingModel) {
-        return MilvusVectorStore.builder(milvusClient, embeddingModel).collectionName(collection).databaseName(database).embeddingDimension(1536).indexType(IndexType.IVF_FLAT).metricType(MetricType.COSINE).batchingStrategy(new TokenCountBatchingStrategy()).initializeSchema(false).build();
+        return MilvusVectorStore.builder(milvusClient, embeddingModel) //  嵌入模型实例，用于将文本转换为向量表示
+                .collectionName(collection)
+                .databaseName(database)
+                .embeddingDimension(1536) //  向量嵌入维度，设置为1536，这通常与使用的嵌入模型（如OpenAI的text-embedding-ada-002）匹配
+                .indexType(IndexType.IVF_FLAT) // 设置为IVF_FLAT（倒排文件Flat索引），是一种常用的近似最近邻搜索索引
+                .metricType(MetricType.COSINE)
+                .batchingStrategy(new TokenCountBatchingStrategy())
+                .initializeSchema(false).build();
     }
 }
